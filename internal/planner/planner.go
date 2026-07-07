@@ -45,7 +45,7 @@ func (p *Planner) GeneratePlan() (*Plan, error) {
 	plan := &Plan{}
 
 	for _, ws := range p.config.Workspaces {
-		expandedPath, err := expandPath(ws.Path)
+		expandedPath, err := p.expandPath(ws.Path)
 		if err != nil {
 			return nil, fmt.Errorf("failed to expand path %s: %w", ws.Path, err)
 		}
@@ -89,8 +89,9 @@ func (p *Planner) GeneratePlan() (*Plan, error) {
 	return plan, nil
 }
 
-// expandPath expands the tilde (~) and relative paths.
-func expandPath(path string) (string, error) {
+// expandPath handles path expansion with respect to the default_start_path.
+func (p *Planner) expandPath(path string) (string, error) {
+	// Highest priority: Tilde expansion
 	if strings.HasPrefix(path, "~") {
 		homeDir, err := os.UserHomeDir()
 		if err != nil {
@@ -98,5 +99,35 @@ func expandPath(path string) (string, error) {
 		}
 		return filepath.Join(homeDir, strings.TrimPrefix(path, "~")), nil
 	}
-	return filepath.Abs(path)
+
+	// Second priority: Absolute paths
+	if filepath.IsAbs(path) {
+		return path, nil
+	}
+
+	// Third priority: Relative paths are joined with default_start_path
+	basePath := p.config.DefaultStartPath
+	if basePath == "" {
+		// If no default_start_path, use the current working directory.
+		cwd, err := os.Getwd()
+		if err != nil {
+			return "", fmt.Errorf("could not get current working directory: %w", err)
+		}
+		basePath = cwd
+	}
+
+	// The base path itself might need expansion (e.g., if it's "~/...").
+	// We can use a temporary planner for this to avoid recursion issues.
+	// A simpler way for now is to assume default_start_path is clean or absolute.
+	// Let's expand it just in case.
+	if strings.HasPrefix(basePath, "~") {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return "", fmt.Errorf("cannot get user home directory for default_start_path: %w", err)
+		}
+		basePath = filepath.Join(homeDir, strings.TrimPrefix(basePath, "~"))
+	}
+
+
+	return filepath.Join(basePath, path), nil
 }

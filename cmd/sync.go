@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/rkathriner/repolift/config"
@@ -13,11 +12,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Re-declaring the package-level variables for the flags.
 var (
 	configFile  string
 	autoApprove bool
 )
 
+// syncCmd logic remains the same...
 var syncCmd = &cobra.Command{
 	Use:   "sync",
 	Short: "Syncs the workspaces by planning and applying the desired state",
@@ -75,32 +76,41 @@ and prompts for confirmation before executing.`,
 	},
 }
 
+// determineConfigPath now correctly uses the XDG standard.
 func determineConfigPath() string {
+	// 1. User-provided flag has highest priority.
 	if configFile != "" {
 		return configFile
 	}
 
-	homeDir, err := os.UserHomeDir()
+	// 2. Get the XDG-compliant default path.
+	defaultPath, err := config.GetDefaultConfigPath()
 	if err != nil {
-		fmt.Println("Error: Could not find home directory to locate default config.")
-		os.Exit(1)
-	}
-	defaultPath := filepath.Join(homeDir, ".repolift", "config.yaml")
-
-	if _, err := os.Stat(defaultPath); os.IsNotExist(err) {
-		// For convenience, we also check for a local repolift.yaml
-		localPath := "repolift.yaml"
-		if _, err := os.Stat(localPath); err == nil {
-			return localPath
-		}
-		fmt.Printf("Error: Default configuration file not found at '%s'.\n", defaultPath)
-		fmt.Println("Please create a config file or specify one with the -f flag.")
+		fmt.Printf("Error: Could not determine default config path: %v\n", err)
 		os.Exit(1)
 	}
 
-	return defaultPath
+	// 3. Check if the default config exists.
+	if _, err := os.Stat(defaultPath); err == nil {
+		return defaultPath
+	}
+
+	// 4. As a fallback, check for a local repolift.yaml for convenience.
+	localPath := "repolift.yaml"
+	if _, err := os.Stat(localPath); err == nil {
+		return localPath
+	}
+	
+	// 5. If no configuration is found, guide the user.
+	fmt.Printf("Error: No configuration file found.\n")
+	fmt.Printf("Checked for default file at: %s\n", defaultPath)
+	fmt.Printf("Checked for local fallback at: %s\n", localPath)
+	fmt.Println("Please create a config file or specify one with the -f flag.")
+	os.Exit(1)
+	return "" // Unreachable
 }
 
+// askForConfirmation logic remains the same...
 func askForConfirmation(prompt string) bool {
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -121,6 +131,6 @@ func askForConfirmation(prompt string) bool {
 
 func init() {
 	rootCmd.AddCommand(syncCmd)
-	syncCmd.Flags().StringVarP(&configFile, "file", "f", "", "config file (e.g., repolift.yaml or ~/.repolift/config.yaml)")
+	syncCmd.Flags().StringVarP(&configFile, "file", "f", "", "config file (e.g., repolift.yaml)")
 	syncCmd.Flags().BoolVar(&autoApprove, "auto-approve", false, "skip interactive approval before applying")
 }
