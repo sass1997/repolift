@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/repolift/repolift/config"
-	"github.com/repolift/repolift/internal/workspace"
+	"github.com/rkathriner/repolift/config"
+	"github.com/rkathriner/repolift/internal/workspace"
 	"github.com/spf13/cobra"
 )
 

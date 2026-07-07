@@ -1,6 +1,6 @@
 package main
 
-import "github.com/repolift/repolift/cmd"
+import "github.com/rkathriner/repolift/cmd"
 
 func main() {
 	cmd.Execute()

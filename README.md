@@ -2,7 +2,7 @@
 
 > A declarative, lightning-fast workspace manager for your Git repositories.
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/repolift/repolift)](https://goreportcard.com/report/github.com/repolift/repolift)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rkathriner/repolift)](https://goreportcard.com/report/github.com/rkathriner/repolift)
 
 Repolift allows you to define your local developer folder structure and git repositories declaratively via a simple YAML file. Instead of manually creating directories and cloning dozens of repositories across multiple projects, you just define your desired state, run one command, and Repolift does the heavy lifting.
 
@@ -20,7 +20,7 @@ Repolift allows you to define your local developer folder structure and git repo
 For now, you can build it from source:
 
 ```bash
-git clone https://github.com/repolift/repolift.git
+git clone https://github.com/rkathriner/repolift.git
 cd repolift
 go build -o repolift main.go
 sudo mv repolift /usr/local/bin/

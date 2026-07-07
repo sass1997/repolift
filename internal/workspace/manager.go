@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/repolift/repolift/config"
+	"github.com/rkathriner/repolift/config"
 )
 
 type Manager struct {

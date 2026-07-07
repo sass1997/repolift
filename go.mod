@@ -1,4 +1,4 @@
-module github.com/repolift/repolift
+module github.com/rkathriner/repolift
 
 go 1.21
 
