@@ -1,29 +1,4 @@
-# .github/workflows/semantic-release.yml
-name: Create Tag
-
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: write # Required to push the new tag
-
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Go Semantic Release
-        uses: go-semantic-release/action@v1
-        with:
-          # This prevents the action from creating a conflicting GitHub release.
-          create-release: "false"
-          # This is the definitive fix to prevent the jump from v0.x.x to v1.0.0.
-          extra-args: "--no-v1-jump-from-v0"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# This file is no longer needed.
+# The logic has been combined into .github/workflows/release.yml
+# to create a single, robust release pipeline.
+# This file can be safely deleted.
