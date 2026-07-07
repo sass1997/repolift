@@ -21,9 +21,9 @@ jobs:
       - name: Go Semantic Release
         uses: go-semantic-release/action@v1
         with:
-          # This is the crucial change:
-          # We tell the action to ONLY create and push a tag.
-          # It will NOT create a GitHub release.
+          # This prevents the action from creating a conflicting GitHub release.
           create-release: "false"
+          # This is the definitive fix to prevent the jump from v0.x.x to v1.0.0.
+          extra-args: "--no-v1-jump-from-v0"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
