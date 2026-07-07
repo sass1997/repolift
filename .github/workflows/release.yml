@@ -9,6 +9,9 @@ on:
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
+    # This is crucial to allow GoReleaser to upload artifacts to the release.
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
