@@ -1,4 +1,4 @@
-module github.com/rkathriner/repolift
+module github.com/sass1997/repolift
 
 go 1.26.5
 

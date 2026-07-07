@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rkathriner/repolift/config"
-	"github.com/rkathriner/repolift/internal/importer"
+	"github.com/sass1997/repolift/config"
+	"github.com/sass1997/repolift/internal/importer"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )

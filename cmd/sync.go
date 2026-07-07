@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/rkathriner/repolift/config"
-	"github.com/rkathriner/repolift/internal/executor"
-	"github.com/rkathriner/repolift/internal/planner"
+	"github.com/sass1997/repolift/config"
+	"github.com/sass1997/repolift/internal/executor"
+	"github.com/sass1997/repolift/internal/planner"
 	"github.com/spf13/cobra"
 )
 
@@ -100,7 +100,7 @@ func determineConfigPath() string {
 	if _, err := os.Stat(localPath); err == nil {
 		return localPath
 	}
-	
+
 	// 5. If no configuration is found, guide the user.
 	fmt.Printf("Error: No configuration file found.\n")
 	fmt.Printf("Checked for default file at: %s\n", defaultPath)

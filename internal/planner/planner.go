@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rkathriner/repolift/config"
+	"github.com/sass1997/repolift/config"
 )
 
 // ActionType defines the kind of operation to be performed.
@@ -127,7 +127,6 @@ func (p *Planner) expandPath(path string) (string, error) {
 		}
 		basePath = filepath.Join(homeDir, strings.TrimPrefix(basePath, "~"))
 	}
-
 
 	return filepath.Join(basePath, path), nil
 }

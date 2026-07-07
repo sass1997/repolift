@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rkathriner/repolift/config"
+	"github.com/sass1997/repolift/config"
 )
 
 // Discover scans a root path and generates a Workspace configuration
@@ -31,7 +31,7 @@ func Discover(rootPath string) (*config.Workspace, error) {
 		// If we find a .git directory, we've found a repository.
 		if d.IsDir() && d.Name() == ".git" {
 			repoDir := filepath.Dir(path)
-			
+
 			// Get the remote URL from the git config
 			remoteURL, gitErr := getGitRemoteURL(repoDir)
 			if gitErr != nil {

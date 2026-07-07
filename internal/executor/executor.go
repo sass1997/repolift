@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/rkathriner/repolift/internal/planner"
+	"github.com/sass1997/repolift/internal/planner"
 )
 
 // ExecutePlan runs the actions defined in a plan.
