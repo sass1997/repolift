@@ -1,0 +1,45 @@
+# .goreleaser.yml
+# Visit https://goreleaser.com/customization/ for more options
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    # The main entrypoint for your application
+    main: ./main.go
+    # The name of the binary
+    binary: repolift
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the naming
+    # scheme goreleaser uses for the variables below.
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    # Example: filter out docs, test, and chore commits from the changelog
+    exclude:
+      - '(?i)^docs:'
+      - '(?i)^test:'
+      - '(?i)^chore:'
+
+# The brews and nixes sections have been removed for now.
+# You can add them back later when you are ready to set up
+# Homebrew and Nix packaging.
