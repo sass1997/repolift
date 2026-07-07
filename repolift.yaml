@@ -1,0 +1,28 @@
+workspaces:
+  # Workspace for HashiCorp projects
+  - path: "./git/hashicorp"
+    repositories:
+      # The 5 main projects
+      - url: "https://github.com/hashicorp/terraform.git"
+        dir: "terraform"
+      - url: "https://github.com/hashicorp/vault.git"
+        dir: "vault"
+      - url: "https://github.com/hashicorp/consul.git"
+        dir: "consul"
+      - url: "https://github.com/hashicorp/packer.git"
+        dir: "packer"
+      - url: "https://github.com/hashicorp/nomad.git"
+        dir: "nomad"
+      # Demo repository
+      - url: "https://github.com/quii/learn-go-with-tests.git"
+        dir: "test"
+
+  # Workspace for Grafana Labs projects, located inside this project folder
+  - path: "./grafana-labs"
+    repositories:
+      - url: "https://github.com/grafana/loki.git"
+        dir: "loki"
+      - url: "https://github.com/grafana/grafana.git"
+        dir: "grafana"
+      - url: "https://github.com/grafana/mimir.git"
+        dir: "mimir"
